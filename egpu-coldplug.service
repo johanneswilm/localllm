@@ -1,0 +1,13 @@
+[Unit]
+Description=Normalize coldplugged eGPU BARs (remove/rescan if zero)
+# One-shot per boot; harmless no-op when the box is not attached or the
+# BARs are already programmed. Fixes the BAR symptom of a coldpluged eGPU
+# only - a MMIO-dead GPU still fails the driver probe (EGPU.md,
+# "Coldplug function death"). Install: cp egpu-coldplug.sh
+# /usr/local/sbin/ && cp egpu-coldplug.service
+# /etc/systemd/system/ && systemctl enable egpu-coldplug.service
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/egpu-coldplug.sh
